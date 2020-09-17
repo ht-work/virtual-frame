@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+import "net_agent/ErrNo.proto";
+
+package acl;
+
+service AclManager {
+    rpc AttachAcl(AclAttachRequest) returns (AclAttachReply) {}
+    rpc DetachAcl(AclDetachRequest) returns (AclDetachReply) {}
+
+    rpc AddAclFile(AclFileAddRequest) returns (AclFileAddReply) {}
+    rpc DelAclFile(AclFileDelRequest) returns (AclFileDelReply) {}
+    rpc ModifyAclFile(AclFileModifyRequest) returns (AclFileModifyReply) {}
+    rpc QueryAclFile(AclFileQueryRequest) returns (AclFileQueryReply) {}
+}
+
+message AclRule {
+    string priority = 1;
+    enum Direction {
+        IN = 0;
+        OUT = 1;
+        INOUT = 2;
+    }
+    Direction direction = 2;
+    string protocol = 3;
+    string src_ip = 4;
+    string src_port = 5;
+    string src_mask = 6;
+    string src_mac = 7;
+    string src_mac_mask = 8;
+    string dst_ip = 9;
+    string dst_port = 10;
+    string dst_mask = 11;
+    string dst_mac = 12;
+    string dst_mac_mask = 13;
+    string action = 14;
+}
+
+message AclAttachRequest {
+    string vswitch_name = 1;
+    string tap_name = 2;
+    string mac_addr = 3;
+    string filter_name = 4;
+}
+
+message AclAttachReply {
+    ErrorNumberType errno = 1;
+}
+
+message AclDetachRequest {
+    string vswitch_name = 1;
+    string tap_name = 2;
+    string mac_addr = 3;
+    string filter_name = 4;
+}
+
+message AclDetachReply {
+    ErrorNumberType errno = 1;
+}
+
+enum Filter_Type {
+    FILTER_BY_MAC = 0;
+    FILTER_BY_IP = 1;
+    FILTER_BY_NONE = 2;
+}
+
+message AclFileAddRequest {
+    string filter_name = 1;
+    Filter_Type filter_type = 2;
+    string in_default_action = 3;
+    string out_default_action = 4;    
+    repeated AclRule acl_rules = 5;
+}
+
+message AclFileAddReply {
+    ErrorNumberType errno = 1;
+}
+
+message AclFileDelRequest {
+    string filter_name = 1;
+}
+
+message AclFileDelReply {
+    ErrorNumberType errno = 1;
+}
+
+message AclFileModifyRequest {
+    string filter_name = 1;
+    Filter_Type filter_type = 2;
+    string in_default_action = 3;
+    string out_default_action = 4;
+    repeated AclRule acl_rules = 5;
+}
+
+message AclFileModifyReply {
+    ErrorNumberType errno = 1;
+}
+
+message AclFileQueryRequest {
+    string filter_name = 1;
+}
+
+message AclFileQueryReply {
+    string filter_name = 1;
+    Filter_Type filter_type = 2;
+    string in_default_action = 3;
+    string out_default_action = 4;
+    repeated AclRule acl_rules = 5;
+    ErrorNumberType errno = 6;
+}

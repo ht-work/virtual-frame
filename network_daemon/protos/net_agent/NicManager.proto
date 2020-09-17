@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+import "net_agent/ErrNo.proto";
+
+package nic;
+
+service NicManager {
+    rpc QueryNicList(NicListQueryRequest) returns (NicListQueryReply) {}
+
+    rpc QueryNicInfo(NicInfoQueryRequest) returns (NicInfoQueryReply) {}
+    rpc ModifyNic(NicModifyRequest) returns (NicModifyReply) {}
+    rpc StartNic(NicStartRequest) returns (NicStartReply) {}
+    rpc StopNic(NicStopRequest) returns (NicStopReply) {}
+
+    rpc QueryPacketStat(PacketStatQueryRequest) returns (PacketStatQueryReply) {}
+}
+
+message NicListQueryRequest {
+    string host_name = 1;
+    enum NicType {
+        ALL_PHY_NIC = 0;
+        FREE_PHY_NIC = 1;
+        VIRTUAL_NIC = 2;
+    }
+    NicType nic_type = 2;
+}
+
+message NicListQueryReply {
+    repeated string nic_names = 1;
+    ErrorNumberType errno = 2;
+}
+
+message NicInfoQueryRequest {
+    repeated string nic_names = 1;
+}
+
+message NicInfo {
+    string nic_name = 1;
+    string description = 2;
+    string mac_address = 3;
+    string speed = 4;
+    string operstate = 5;
+    string mtu = 6;
+    string driver_name = 7;
+    string numa = 8;
+    string nic_address = 9;
+    string carrier = 10;
+    string duplex = 11;
+    ErrorNumberType errno = 12;
+}
+
+message NicInfoQueryReply {
+    repeated NicInfo nic_infos = 1;
+}
+
+message NicModifyRequest {
+    string nic_name = 1;
+    string driver_name = 2;
+    string mtu = 3;
+}
+
+message NicModifyReply {
+    ErrorNumberType errno = 1;
+}
+
+message NicStartRequest {
+    string nic_name = 1;
+}
+
+message NicStartReply {
+    ErrorNumberType errno = 1;
+}
+
+
+message NicStopRequest {
+    string nic_name = 1;
+}
+
+message NicStopReply {
+    ErrorNumberType errno = 1;
+}
+
+message PacketStatQueryRequest {
+    repeated string mac_addrs = 1;
+}
+
+message PacketStat {
+    string nic_name = 1;
+    string tx_packets = 2;
+    string rx_packets = 3;
+    string tx_bytes = 4;
+    string rx_bytes = 5;
+    string tx_dropped = 6;
+    string rx_dropped = 7;
+    string tx_errors = 8;
+    string rx_errors = 9;
+    ErrorNumberType errno = 10;
+}
+
+message PacketStatQueryReply {
+    repeated PacketStat packet_stats= 1;
+}
+

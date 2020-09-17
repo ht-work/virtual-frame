@@ -1,0 +1,13 @@
+[Unit]
+Description=A gRPC server for net agent
+After=network.service
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart=/opt/pipenv/.venv/bin/net_agentd
+ExecStop=/bin/kill -TERM $MAINPID
+TimeoutSec=10
+
+[Install]
+WantedBy=multi-user.target

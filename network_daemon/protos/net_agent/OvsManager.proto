@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+import "net_agent/ErrNo.proto";
+
+package ovs;
+
+service OvsManager {
+    rpc QueryvSwitchList(vSwitchListQueryRequest) returns (vSwitchListQueryReply) {}
+
+    rpc AddvSwitch(vSwitchAddRequest) returns (vSwitchAddReply) {}
+    rpc DelvSwitch(vSwitchDelRequest) returns (vSwitchDelReply) {}
+    rpc ModifyvSwitch(vSwitchModifyRequest) returns (vSwitchModifyReply) {}
+    rpc QueryvSwitchInfo(vSwitchInfoQueryRequest) returns (vSwitchInfoQueryReply) {}
+
+    rpc SetInternalNicParam(InternalNicParamSetRequest) returns (InternalNicParamSetReply) {}
+    rpc ClearInternalNicParam(InternalNicParamClearRequest) returns (InternalNicParamClearReply) {}
+    rpc GetInternalNicParam(InternalNicParamGetRequest) returns (InternalNicParamGetReply) {}
+}
+
+message vSwitchListQueryRequest {
+    string host_name = 1;
+}
+
+message vSwitchListQueryReply {
+    repeated string vswitch_names = 1;
+    ErrorNumberType errno = 2;
+}
+
+message vSwitchConf {
+    string vswitch_name = 1;
+    enum Mode {
+        VEB = 0;
+        VXLAN = 1;
+    }
+    Mode mode = 2;
+    bool is_multicast = 3;
+}
+
+message vSwitchAddRequest {
+   vSwitchConf vswitch_conf = 1;
+}
+
+message vSwitchAddReply {
+    ErrorNumberType errno = 1;
+}
+
+message vSwitchDelRequest {
+    string vswitch_name = 1;
+}
+
+message vSwitchDelReply {
+    ErrorNumberType errno = 1;
+}
+
+message vSwitchModifyRequest {
+    vSwitchConf vswitch_conf = 1;
+}
+
+message vSwitchModifyReply {
+    ErrorNumberType errno = 1;
+}
+
+message vSwitchInfo {
+    vSwitchConf vswitch_conf = 1;
+    bool is_link = 2;
+    ErrorNumberType errno = 3;
+}
+
+message vSwitchInfoQueryRequest {
+    repeated string vswitch_names = 1;
+}
+
+message vSwitchInfoQueryReply {
+    repeated vSwitchInfo vswitch_infos = 1;
+}
+
+message InternalNicParamSetRequest {
+    string vswitch_name = 1;
+    string internal_nic_name = 2;
+    string vlan = 3;
+    string mtu = 4;
+    string ip_addr = 5;
+    string netmask = 6;
+    string gateway = 7;
+}
+
+message InternalNicParamSetReply {
+    ErrorNumberType errno = 1;
+}
+
+message InternalNicParamGetRequest {
+    string vswitch_name = 1;
+    string internal_nic_name= 2;
+}
+
+message InternalNicParamGetReply {
+    string vswitch_name = 1;
+    string internal_nic_name = 2;
+    string vlan = 3;
+    string mtu = 4;
+    string ip_addr = 5;
+    string netmask = 6;
+    string gateway = 7;
+    ErrorNumberType errno = 8;
+}
+
+message InternalNicParamClearRequest {
+    string vswitch_name = 1;
+    string internal_nic_name = 2;
+}
+
+message InternalNicParamClearReply {
+    ErrorNumberType errno = 1;
+}

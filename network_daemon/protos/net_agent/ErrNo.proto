@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+enum ErrorNumberType {
+    SYS_OK = 0;
+    SYS_FAIL = 1;
+    reserved 2 to 1999;
+    NIC_START_NIC_FAIL = 2000;
+}

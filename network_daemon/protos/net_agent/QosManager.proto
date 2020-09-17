@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+import "net_agent/ErrNo.proto";
+
+package qos;
+
+service QosManager {
+    rpc AttachQos(QosAttachRequest) returns (QosAttachReply) {}
+    rpc DetachQos(QosDetachRequest) returns (QosDetachReply) {}
+
+    rpc AddQosFile(QosFileAddRequest) returns (QosFileAddReply) {}
+    rpc DelQosFile(QosFileDelRequest) returns (QosFileDelReply) {}
+    rpc ModifyQosFile(QosFileModifyRequest) returns (QosFileModifyReply) {}
+    rpc QueryQosFile(QosFileQueryRequest) returns (QosFileQueryReply) {}
+}
+
+// qos_rules in QosFileAddRequest, QosFileDelRequest, QosFileModifyRequest
+// QueryQosFile is a json string.
+// e.g.
+// dict = {
+//     "rules":[
+//         {"direction":"in", "average":"1000", "peak":"1500", "burst":"2000"}
+//     ]
+// }
+// key:direction have two choice:in and out,in means stream outer->vms,out means stream outer<-vms,
+
+
+message QosAttachRequest {
+    string vswitch_name = 1;
+    string tap_name = 2;
+    string qos_name = 3;
+}
+
+message QosAttachReply {
+    ErrorNumberType errno = 1;
+}
+
+message QosDetachRequest {
+    string vswitch_name = 1;
+    string tap_name = 2;
+    string qos_name = 3;
+}
+
+message QosDetachReply {
+    ErrorNumberType errno = 1;
+}
+
+message QosFileAddRequest {
+    string qos_name = 1;
+    string priority = 2;
+    string qos_rules = 3;
+}
+
+message QosFileAddReply {
+    ErrorNumberType errno = 1;
+}
+
+message QosFileDelRequest {
+    string qos_name = 1;
+}
+
+message QosFileDelReply {
+    ErrorNumberType errno = 1;
+}
+
+message QosFileModifyRequest {
+    string qos_name = 1;
+    string priority = 2;
+    string qos_rules = 3;
+}
+
+message QosFileModifyReply {
+    ErrorNumberType errno = 1;
+}
+
+message QosFileQueryRequest {
+    string qos_name = 1;
+}
+
+message QosFileQueryReply {
+    string qos_name = 1;
+    string priority = 2;
+    string qos_rules = 3;
+    ErrorNumberType errno = 4;
+}

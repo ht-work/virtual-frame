@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+import "net_agent/ErrNo.proto";
+
+package uplink;
+
+service UpLinkManager {
+    rpc AddUpLink(UpLinkAddRequest) returns (UpLinkAddReply) {}
+    rpc DelUpLink(UpLinkDelRequest) returns (UpLinkDelReply) {}
+    rpc ModifyUpLink(UpLinkModifyRequest) returns (UpLinkModifyReply) {}
+}
+
+message UpLinkConf {
+    repeated string nic_names = 1;
+    enum Link_Mode {
+        NONE = 0;
+        BOND = 1;
+    }
+    Link_Mode link_mode = 2;
+    string bond_name = 3;
+    bool lacp = 4;
+    enum Bond_Mode {
+        ACTIVE_BACKUP = 0;
+        BALANCE_SLB = 1;
+        BALANCE_TCP = 2;
+    }
+    Bond_Mode bond_mode = 5;
+    enum Algorithm {
+        ORDER = 0;
+        SPEED = 1;
+    }
+    string algorithm = 6;
+    string reselect = 7;
+}
+
+message UpLinkAddRequest {
+    string vswitch_name = 1;
+    UpLinkConf uplink_conf = 2;
+}
+
+message UpLinkAddReply {
+    ErrorNumberType errno = 1;
+}
+
+message UpLinkDelRequest {
+    string vswitch_name = 1;
+}
+
+message UpLinkDelReply {
+    ErrorNumberType errno = 1;
+}
+
+message UpLinkModifyRequest {
+    string vswitch_name = 1;
+    UpLinkConf uplink_conf = 2;
+}
+
+message UpLinkModifyReply {
+    ErrorNumberType errno = 1;
+}
+
