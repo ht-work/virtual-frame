@@ -1,0 +1,12 @@
+*.pyc
+*.log
+tags
+__pycache__
+/src/virt_agent/virt_agent_pb2.py
+/src/virt_agent/virt_agent_pb2_grpc.py
+/src/virt_agent.egg-info/
+/build/
+/dist/
+/.coverage
+/coverage.xml
+/htmlcov/

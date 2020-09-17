@@ -1,0 +1,6 @@
+*.pyc
+*.log
+/build/
+/dist/
+/src/netcopy.egg-info/
+/coverage.xml
