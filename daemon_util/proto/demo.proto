@@ -1,0 +1,31 @@
+syntax="proto3";
+
+service Demo {
+    rpc GetVersion(MsgHead) returns (Version) {}
+    rpc GetProcesses(MsgHead) returns (stream ProcessInfo) {}
+    rpc GetCPUPercent(stream ProcessPid) returns (stream ProcessCPUPercent) {}
+}
+
+message MsgHead {
+    int64 id = 1;
+    string hostname = 2;
+}
+
+message Version {
+    int64 id = 1;
+    string version = 2;
+}
+
+message ProcessInfo {
+    int64 pid = 1;
+    string name = 2;
+}
+
+message ProcessPid {
+    int64 pid = 1;
+}
+
+message ProcessCPUPercent {
+    ProcessInfo pinfo = 1;
+    double cpu_percent = 2;
+}
