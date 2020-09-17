@@ -1,0 +1,400 @@
+// date:2019/5/20
+// author: gs
+
+syntax = "proto3";
+import "storeagent/store_util.proto";
+
+package pools;
+
+// pool manager
+service Pools {
+    // local pool manager
+    rpc CreateLocalPool(LocalPoolCreateRequest) returns (LocalPoolCreateReply){}
+    rpc DeleteLocalPool(LocalPoolDeleteRequest) returns (LocalPoolDeleteReply){}
+    rpc GetPoolInfo(PoolInfoGetRequest) returns (PoolInfoGetReply){}
+    rpc StartLocalPool(LocalPoolStartRequest) returns (LocalPoolStartReply){}
+    rpc StopLocalPool(LocalPoolStopRequest) returns (LocalPoolStopReply){}
+
+    // iscsi block pool manager
+    rpc CreateIscsiBlockPool(IscsiBlockPoolCreateRequest) returns (IscsiBlockPoolCreateReply){}
+    rpc DeleteIscsiBlockPool(IscsiBlockPoolDeleteRequest) returns (IscsiBlockPoolDeleteReply){}
+    rpc StartIscsiBlockPool(IscsiBlockPoolStartRequest) returns (IscsiBlockPoolStartReply){}
+    rpc StopIscsiBlockPool(IscsiBlockPoolStopRequest) returns (IscsiBlockPoolStopReply){}
+
+    // fc net pool manager
+    rpc CreateFcNetPool(FcNetPoolCreateRequest) returns (FcNetPoolCreateReply){}
+    rpc DeleteFcNetPool(FcNetPoolDeleteRequest) returns (FcNetPoolDeleteReply){}
+    rpc GetFcNetPoolInfo(FcNetPoolInfoGetRequest) returns (FcNetPoolInfoGetReply){}
+    rpc StartFcNetPool(FcNetPoolStartRequest) returns (FcNetPoolStartReply){}
+    rpc StopFcNetPool(FcNetPoolStopRequest) returns (FcNetPoolStopReply){}
+
+    // Ocfs2  pool manager
+    rpc CreateOcfs2Pool(Ocfs2PoolCreateRequest) returns (Ocfs2PoolCreateReply){}
+    rpc DeleteOcfs2Pool(Ocfs2PoolDeleteRequest) returns (Ocfs2PoolDeleteReply){}
+    rpc StartOcfs2Pool(Ocfs2PoolStartRequest) returns (Ocfs2PoolStartReply){}
+    rpc StopOcfs2Pool(Ocfs2PoolStopRequest) returns (Ocfs2PoolStopReply){}
+
+    // fc shared fs pool manager
+    rpc CreateFcShareFsPool(FcShareFsPoolCreateRequest) returns (FcShareFsPoolCreateReply){}
+    rpc DeleteFcShareFsPool(FcShareFsPoolDeleteRequest) returns (FcShareFsPoolDeleteReply){}
+    rpc GetFcShareFsPoolInfo(FcShareFsPoolInfoGetRequest) returns (FcShareFsPoolInfoGetReply){}
+    rpc StartFcShareFsPool(FcShareFsPoolStartRequest) returns (FcShareFsPoolStartReply){}
+    rpc StopFcShareFsPool(FcShareFsPoolStopRequest) returns (FcShareFsPoolStopReply){}
+
+    // get fc naa info
+    rpc GetFcNaaInfo(FcNaaInfoGetRequest) returns (FcNaaInfoGetReply){}
+
+    // format device to ocfs2
+    rpc FormatDeviceToOcfs2(DeviceToOcfs2FormatRequest) returns (DeviceToOcfs2FormatReply){}
+
+    // format fc disk
+    rpc FormatFcDisk(FcDiskFormatRequest) returns (FcDiskFormatReply){}
+
+    // only get pool size
+    rpc GetOnlyPoolsSize(OnlyPoolSizeGetRequest) returns (OnlyPoolSizeGetReply){}
+
+    // get host useful device to Create LOCAL Datastore.
+    // on Usefullocaldevicegetreply disk_list is a json string
+    // [
+    //   {
+    //     'naa': scsi_id
+    //     'fstype': null or not ext4, need format to ext4
+    //   }
+    // ]
+    rpc GetUsefulLocalDevice(UsefulLocalDeviceGetRequest) returns (UsefulLocalDeviceGetReply) {}
+
+    // format local disk
+    rpc FormatLocalDisk(LocalDiskFormatRequest) returns (LocalDiskFormatReply){}
+
+    // get local store size
+    rpc GetLocalStoreSize(LocalStoreSizeGetRequest) returns (LocalStoreSizeGetReply){}
+
+    // get Datastore file list
+    rpc GetPoolFileList(PoolFileListGetRequest) returns (PoolFileListGetReply){}
+
+    // get host DataStore Pool name list
+    rpc GetPoolNameList(PoolNameListGetRequest) returns (PoolNameListGetReply){}
+}
+// local pool  message
+enum PoolType {
+    LOCAL = 0;
+    ISCSI_BLOCK = 1;
+    FC_BLOCK = 2;
+    ISCSI_FS = 3;
+    FC_FS = 4;
+}
+
+message LocalPoolCreateRequest {
+    string name = 1;
+    string n_title = 2; //name title
+    string naa = 3; //device scsi_id
+}
+
+message LocalPoolCreateReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message LocalPoolDeleteRequest {
+    string name = 1;
+}
+
+message LocalPoolDeleteReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message PoolInfoGetRequest {
+    string name = 1;
+}
+
+message DataStoreInfo {
+    string name = 1;
+    PoolType p_type = 2;
+    string naa = 3; // device naa, scsi_id or fc number
+    string portal = 4; // x.x.x.x:port,x.x.x.x:port
+    string target = 5;
+    string totalsize = 6;
+    string allocatedsize = 7;
+    string availablesize = 8;
+    string state = 9;
+    string n_title = 10;
+    string mountpoint = 11;
+}
+
+message PoolInfoGetReply {
+    DataStoreInfo info = 1;
+    store_util.ErrorNumberType errno= 2;
+}
+
+message LocalPoolStartRequest {
+    string name = 1;
+}
+
+message LocalPoolStartReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message LocalPoolStopRequest {
+    string name = 1;
+}
+
+message LocalPoolStopReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+// iscsi block pool message
+message IscsiBlockPoolCreateRequest {
+    string name = 1;
+    string portal = 2; // ip:port  x.x.x.x:x
+    string target = 3;
+    string n_title = 4; //name title
+}
+
+message IscsiBlockPoolCreateReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message IscsiBlockPoolDeleteRequest {
+    string name = 1;
+}
+
+message IscsiBlockPoolDeleteReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message IscsiBlockPoolStartRequest {
+    string name = 1;
+}
+
+message IscsiBlockPoolStartReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message IscsiBlockPoolStopRequest {
+    string mame = 1;
+}
+
+message IscsiBlockPoolStopReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+// fc net pool message
+message FcNetPoolCreateRequest {
+    string mame = 1;
+    string fc_Naa = 2;
+    string n_title = 3; // name title
+}
+
+message FcNetPoolCreateReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message FcNetPoolDeleteRequest {
+    string name = 1;
+}
+
+message FcNetPoolDeleteReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message FcNetPoolInfoGetRequest {
+    string name = 1;
+}
+
+message FcNetPoolInfoGetReply {
+    DataStoreInfo info = 1;
+    store_util.ErrorNumberType errno = 2;
+}
+
+message FcNetPoolStartRequest {
+    string name = 1;
+}
+
+message FcNetPoolStartReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message FcNetPoolStopRequest {
+    string name = 1;
+}
+
+message FcNetPoolStopReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+// ocfs2  pool message
+message Ocfs2PoolCreateRequest {
+    string name = 1;
+    string n_title = 2;
+    string naa = 3;
+    string portal = 4;
+    string target = 5;
+    string cluster_name = 6; // if null , used defaultpool
+    string cluster_port = 7; // ocfs2 port, if null , used 7777
+    string cluster_host_list = 8; // all used the ocfs2 host list, ip +  hostname x.x.x.x:hostname,x.x.x.x:hostname
+}
+
+message Ocfs2PoolCreateReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message Ocfs2PoolDeleteRequest {
+    string name = 1;
+}
+
+message Ocfs2PoolDeleteReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message Ocfs2PoolStartRequest {
+    string name = 1;
+}
+
+message Ocfs2PoolStartReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message Ocfs2PoolStopRequest {
+    string name = 1;
+}
+
+message Ocfs2PoolStopReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+// fc share fs pool message
+message FcShareFsPoolCreateRequest {
+    string name = 1;
+    string fc_naa = 2;
+    string mount_point = 3;
+    string n_title = 4; //name title
+    repeated string share_ip = 5;//used this fc host ip list
+}
+
+message FcShareFsPoolCreateReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message FcShareFsPoolDeleteRequest {
+    string name = 1;
+}
+
+message FcShareFsPoolDeleteReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message FcShareFsPoolInfoGetRequest {
+    string name = 1;
+}
+
+message FcShareFsPoolInfoGetReply {
+    DataStoreInfo info = 1;
+    store_util.ErrorNumberType errno = 2;
+}
+
+message FcShareFsPoolStartRequest {
+    string name = 1;
+}
+
+message FcShareFsPoolStartReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message FcShareFsPoolStopRequest {
+    string name = 1;
+}
+
+message FcShareFsPoolStopReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+//get fc naa info  message
+message FcNaaInfoGetRequest {
+    string hostip = 1;
+}
+
+message FcNaaInfoGetReply {
+    repeated string naa = 1;
+    store_util.ErrorNumberType errno = 2;
+}
+
+// format device to Ocfs2
+message DeviceToOcfs2FormatRequest {
+    string naa = 1;
+    string maxnode = 2;
+    string cluster_size = 3;
+}
+
+message DeviceToOcfs2FormatReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+// format fc disk message
+message FcDiskFormatRequest {
+    string fc_naa = 1;
+}
+
+message FcDiskFormatReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+// only get pool size message
+message OnlyPoolSizeGetRequest {
+    string naa  = 1; // the pool device naa
+}
+
+message DataStoreSizeInfo {
+    string totalsize = 1;
+    string allocatedsize = 2;
+    string availablesize = 3;
+}
+message OnlyPoolSizeGetReply {
+    DataStoreSizeInfo datainfo = 1;
+    store_util.ErrorNumberType errno = 2;
+}
+
+// get local host  which device can used to create Datastore
+message UsefulLocalDeviceGetRequest {
+}
+
+message UsefulLocalDeviceGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string disk_list = 2;
+}
+
+// Format local disk ,default  fstype ext4
+message LocalDiskFormatRequest {
+    string naa = 1; //device  scsi_id
+}
+
+message LocalDiskFormatReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+// get local store size
+message LocalStoreSizeGetRequest {
+}
+
+message LocalStoreSizeGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string totalsize = 2;
+    string usedsize = 3;
+}
+
+// get pool file list
+message PoolFileListGetRequest {
+    string name = 1;
+}
+
+message PoolFileListGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string file_list = 2;
+}
+
+// get pool name list
+message PoolNameListGetRequest {
+}
+
+message PoolNameListGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string name_list = 2;
+}

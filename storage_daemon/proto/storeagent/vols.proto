@@ -1,0 +1,123 @@
+//date:2019/5/20
+//author:  gs
+
+syntax = "proto3";
+import "storeagent/store_util.proto";
+
+package vols;
+//vol manager
+service Vols{
+    // create  Vol preallocation=off, falloc
+    rpc CreateVol(VolCreateRequest) returns (VolCreateReply){}
+    // create  Vol preallocation=full delay interface
+    rpc CreateFullVol(FullVolCreateRequest) returns (FullVolCreateReply){}
+
+    rpc DeleteVol(VolDeleteRequest) returns (VolDeleteReply){}
+    rpc GetVolInfo(VolInfoGetRequest) returns (VolInfoGetReply){}
+}
+
+message VolCreateRequest {
+    string json_data = 1;
+}
+
+// if vol_type is raw
+// default json_data
+// {
+//     p_name: xxx
+//     vol_path:   Relative  pool_path  path
+//     vol_type:   raw
+//     vol_size:   KB
+//     preallocation:  ['off', 'full', 'falloc']
+// }
+// pool_path is xxx/pool_name
+// e.g command = 'qemu-img create -f raw -o preallocation=off xxxx/pool_name/vol_name
+//      10M'
+// the json is
+// {
+//     p_name: pool_test,
+//     vol_path: vol_name,
+//     vol_type: raw,
+//     vol_size: 10240,
+//     preallocation: off
+// }
+// command = 'qemu-img create -f raw -o preallocation=off xxxx/pool_name/dir/vol_name
+//      10M'
+// {
+//     p_name: xxxx,
+//     vol_path: dir/vol_name,
+//     vol_type: raw,
+//     vol_size: 10240,
+//     preallocation: off
+// }
+
+// if vol_type is qcow2
+// default json_data
+// {
+//     p_name: xxx
+//     vol_path: Relative  pool_path  path
+//     vol_type: qcow2
+//     vol_size: KB
+//     compat: [1.1, 0.10]   default 1.1
+//     backing_file: xxx     default null
+//     backing_fmt: [raw, qcow2, null]   default null (if backing_file is null
+//                                                     backing_fmt need  null )
+//     encryption: [on, off]  default off
+//     cluster_size: KB  the range [0.5-40960]  default 256
+//     preallocation: ['off', 'full', 'falloc', 'metadata']
+//     lazy_refcounts: [on, off ]   default off
+// }
+// e.g command = "qemu-img create -f qcow2  -o preallocation=off  xxx/p_name/
+//                vol_name 10M"
+// the json_data is
+// {
+//     p_namn: p_name,
+//     vol_path: vol_name,
+//     vol_type : qcow2,
+//     vol_size:  10240,
+//     compat: 1.1,
+//     backing_file: null,
+//     backing_fmt: null,
+//     encryption: off,
+//     cluster_size: 256,
+//     preallocation: off,
+//     lazy_refcounts: off
+// }
+//
+
+message VolCreateReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message FullVolCreateRequest {
+    string json_data = 1;
+    // false on default
+    bool no_need_notify = 2;
+}
+
+message FullVolCreateReply {
+    store_util.ErrorNumberType errno = 1;
+    string job_id = 2;
+}
+
+message VolDeleteRequest {
+    string p_name = 1;
+    string v_name = 2;
+}
+
+message VolDeleteReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message VolInfoGetRequest {
+    string p_name = 1;
+    string v_name = 2;
+}
+
+message VolInfo {
+    string volsize = 1;
+    string vol_usedsize = 2;
+}
+message VolInfoGetReply {
+    store_util.ErrorNumberType errno = 1;
+    VolInfo info = 2;
+}

@@ -1,0 +1,13 @@
+grpcio
+grpcio-tools
+protobuf
+envoy
+pyudev
+lxml
+prettytable
+jsonschema
+infi.multipathtools
+retrying
+six
+requests
+urllib3

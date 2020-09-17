@@ -1,0 +1,83 @@
+{
+    "vol":{
+        "type": "object",
+        "required": ["p_name", "vol_path", "vol_type", "vol_size"],
+        "properties": {
+            "p_name": {
+                "type": "string",
+                "minLength": 1
+            },
+            "vol_path": {
+                "type": "string",
+                "minLength": 1
+            },
+            "vol_type": {
+                "type": "string",
+                "enum": ["raw", "qcow2"]
+            },
+            "vol_size": {
+                "type": "string",
+                "minLength": 1
+            }
+        },
+        "oneOf": [
+            {
+                "type": "object",
+                "required": ["preallocation"],
+                "properties": {
+                    "vol_type": {"const": "raw"},
+                    "preallocation": {
+                        "type": "string",
+                        "enum": ["off", "full", "falloc"]
+                    }
+                }
+
+            },
+            {
+                "type": "object",
+                "required": [
+                    "compat",
+                    "backing_file",
+                    "backing_fmt",
+                    "encryption",
+                    "cluster_size",
+                    "preallocation",
+                    "lazy_refcounts"
+                ],
+                "properties": {
+                    "vol_type": {
+                        "const": "qcow2"
+                    },
+                    "compat": {
+                        "type": "string",
+                        "enum": ["1.1", "0.10"]
+                    },
+                    "backing_file": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "backing_fmt": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "encryption": {
+                        "type": "string",
+                        "enum": ["on", "off"]
+                    },
+                    "cluster_size": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "preallocation": {
+                        "type": "string",
+                        "enum": ["off", "full", "falloc", "metadata"]
+                    },
+                    "lazy_refcounts": {
+                        "type": "string",
+                        "enum": ["on", "off"]
+                    }
+                }
+            }
+        ]
+    }
+}

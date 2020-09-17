@@ -1,0 +1,241 @@
+//date:2019/5/20
+//author: gs
+
+syntax = "proto3";
+import  "storeagent/store_util.proto";
+
+package  adapters;
+//storage adapters  manager
+service Adapters {
+
+    // get storage Adapter list
+    // adpater_list in StoreAdapterInfoGetReply is a json string.
+    // e.g
+    // [
+    //     {
+    //         "name" : "'LocalSCSI', or 'Open-ISCSI', or 'FC'"
+    //         "model":"'local scsi', or 'iSCSI Software Adapter or xxx'",
+    //         "type":"'SCSI', or 'iSCSI' or 'FC'",
+    //         "status":"'active' or 'native'",
+    //         "identifier":"'iscsi:iniatorname' or 'FC:wwn'"
+    //     }
+    // ]
+    rpc GetStoreAdapterInfo(StoreAdapterInfoGetRequest) returns (StoreAdapterInfoGetReply){}
+
+    // get one Adapter Resources list
+    // resource_list in AdapterResourcesInfoGetReply a json string
+    // [
+    //     {
+    //         "naa": ''
+    //         "device": 'only local adpater have '
+    //         "loginstatus":"'login' or 'logout'"
+    //         "multipathstatus":"'enable' or 'disable'",
+    //         "size":"device size",
+    //         "speedupsupport":{
+    //             "xcopy":"'0' or '1'", // 0:unsupport, 1 support
+    //             "write_sanme":"'0' or '1'",
+    //             "unmap":"'0' or '1'",
+    //             "ATS":"'0' or '1'"
+    //         }
+    //     }
+    // ]
+    rpc GetAdapterResourcesInfo(AdapterResourcesInfoGetRequest) returns (AdapterResourcesInfoGetReply){}
+
+    // enable device multipath
+    rpc EnableDeviceMultipath(DeviceMultipathEnableRequest) returns (DeviceMultipathEnableReply){}
+    rpc DisableDeviceMultipath(DeviceMultipathDisableRequest) returns (DeviceMultipathDisableReply){}
+
+    // Scan adapter
+    rpc ScanAdapter(AdapterScanRequest) returns (AdapterScanReply){}
+
+    // config multipath info
+    // paths_list in MultipathConfigGetReply is a json string.
+    // [
+    //     {
+    //         "device":"'/dev/sdX'",
+    //         "storeage_ip":"x.x.x.x",
+    //         "target":"'iqn-xxxx'",
+    //         "lun_id":"'LUN_ID'",
+    //         "status":"'active' or 'failed' or 'undef'"
+    //     }
+    // ]
+    rpc GetMultipathConfig(MultipathConfigGetRequest) returns (MultipathConfigGetReply){}
+    rpc SetMultipathConfig(MultipathConfigSetRequest) returns (MultipathConfigSetReply){}
+
+    // target_list in GetIscsiTargetsRequest is a json string.
+    // e.g.
+    // ["iqn.2019-07.localtest.com:target00", "iqn.2019-07.localtest.com:target01", "iqn.2019-07.localtest.com:target02"]
+    rpc GetIscsiTargetsInfo(GetIscsiTargetsRequest) returns (GetIscsiTargetsReply){}
+
+    // if target name is not specified list all target on the same portal
+    // target_list in GetIscsiLunInfoReply is a json string.
+    // {"target name" : ['lun':{SCSI_ID,Size,loginstatus,multipathstatus,speedupsupport,mpath_list}]}
+    // e.g.
+    // {"iqn.2019-07.localtest.com:target02":
+    //     [{lun:
+    //            { 'SCSI_ID':"360000000000000000e00000000030001",
+    //             'Size':419430400,
+    //             'loginstatus':
+    //             'multipathstatus':
+    //             'speedupsupport':
+    //             'mpath_list':[{path_info}]
+    //             }
+    //     }]
+    // }
+    // e.g path_info
+    // [
+    //   'device':
+    //   'ip'
+    //   'lun_id'
+    //   'target'
+    //   'status'
+    // ]
+    rpc GetIscsiLunInfo(GetIscsiLunInfoRequest) returns (GetIscsiLunInfoReply) {}
+
+    // get initiatorname
+    rpc GetInitiatorName(InitiatorNameGetRequest) returns (InitiatorNameGetReply) {}
+
+    // set host initiatorname
+    rpc SetInitiatorName(InitiatorNameSetRequest) returns (InitiatorNameSetReply) {}
+
+    // get iscsi ip session
+    // ip_list in Iscsiipsessiongetreply is a json string.
+    // e.g
+    // [['172.23.7.144:3260'], ['172.23.7.147:3260']]
+    rpc GetIscsiIpSession(IscsiIpSessionGetRequest) returns (IscsiIpSessionGetReply) {}
+}
+
+// naa (Network Address Authority): ISCSI、SAS and FC all support
+//      naa  64bits or 128 bits Unique identifiersd
+//      e.g ISCSI : naa = scsi_id or wwid
+//
+// identifier: ISCSI : iniatorname
+//             FC : wwn :HBA number
+// lun_id : iscsi device    LUN ID
+// scsi_id : command '/lib/udev/scsi_id  /dev/sdx'  ret
+
+message StoreAdapterInfoGetRequest {
+}
+
+message StoreAdapterInfoGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string adapter_list = 2;
+}
+
+message AdapterResourcesInfoGetRequest {
+    string adaptername = 1;
+}
+
+message AdapterResourcesInfoGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string resource_list = 2;
+}
+
+message DeviceMultipathEnableRequest {
+    string naa = 1;
+}
+
+message DeviceMultipathEnableReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message DeviceMultipathDisableRequest {
+    string naa = 1;
+}
+
+message DeviceMultipathDisableReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+enum ScanType {
+    NORMAL_SCAN = 0;
+    FORCED_SCAN = 1;
+}
+message AdapterScanRequest {
+    ScanType type = 1;
+    string adapter_type = 2;
+    string identifier = 3;
+    // false on default
+    bool no_need_notify = 4;
+}
+
+message AdapterScanReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+//multipath mode
+enum MultipathPolicyMode {
+    RECENTLY_USED = 0;
+    FIXED = 1;
+    LOOP = 2;
+    OPTIMAL = 3;
+    DEFAULT = 4;
+}
+
+message MultipathConfigGetRequest {
+    string naa = 1;
+}
+
+message MultipathConfigGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string paths_list = 2;
+    MultipathPolicyMode  policy = 3;
+}
+message MultipathConfigSetRequest {
+    string naa = 1;
+    MultipathPolicyMode policy = 2;
+}
+
+message MultipathConfigSetReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+message GetIscsiTargetsRequest
+{
+    string portal_list = 1; // ip:port,ip:port
+}
+
+message GetIscsiTargetsReply
+{
+    store_util.ErrorNumberType errno = 1;
+    string target_list = 2;
+}
+
+message GetIscsiLunInfoRequest
+{
+    string portal_list = 1; //ip:port,ip:port
+    string target_name = 2;
+}
+
+message GetIscsiLunInfoReply
+{
+    store_util.ErrorNumberType errno = 1;
+    string lun_list = 2;
+}
+
+// get initiatorname message
+message InitiatorNameGetRequest {
+}
+
+message InitiatorNameGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string initiatorname = 2;
+}
+
+// set initiatorname message
+message InitiatorNameSetRequest {
+    string initiatorname = 1;
+}
+
+message InitiatorNameSetReply {
+    store_util.ErrorNumberType errno = 1;
+}
+
+// get iscsi ip session
+message IscsiIpSessionGetRequest {
+}
+
+message IscsiIpSessionGetReply {
+    store_util.ErrorNumberType errno = 1;
+    string ip_list = 2;
+}

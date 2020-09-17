@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<datastore type="0">
+        <name>test</name>
+        <uuid/>
+        <naa/>
+        <portal/>
+        <target/>
+        <mountpoint>/data/localpool</mountpoint>
+    </datastore>

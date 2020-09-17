@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package store_util;
+
+enum ErrorNumberType {
+    STORE_OK = 0;
+    STORE_GET_DISKPART_FAIL = 3001; // get diskpart fail
+    STORE_FORMAT_LOCALDISK_FAIL = 3002; // format local disk fail
+    STORE_DEVICE_NOT_EXISTS = 3003; // the disk is not exists
+    STORE_MOUNT_FAIL = 3004; // mount the device fail
+    STORE_GET_DEVICE_MOUNTPOINT_FAIL = 3005; // get the device mounpoint fail
+    STORE_UUID_IS_EXISTS = 3006; // the uuid is already used
+    STORE_CREATE_XML_FAIL = 3007; // create datestore xml fail
+    STORE_IS_NOT_EXISTS = 3008; // the datastore is not exists
+    STORE_XML_NOT_EXISTS = 3009; // the datastore xml is not exists
+    STORE_UMOUNT_FAIL = 3010; // umount device fail
+    STORE_XML_DEVICE_IS_NULL = 3011; // the device is null in xml
+    STORE_XML_MOUNTPOINT_IS_NULL = 3012; // the mounpoint is null in xml
+    STORE_OSERROR = 3013; // the OsError exception
+    STORE_XML_ERROR = 3014; // the xml conf error
+    STORE_INVALID_ERROR = 3015; // the invalid error
+    STORE_UNKNOWN_ERROR = 3016; // unknown error
+    STORE_READ_XML_FAIL = 3017; // read xml fail
+    STORE_GET_DEVICE_SIZEINFO_FAIL = 3018; // get device size info fail
+    STORE_DEVICE_MOUNT = 3019; // the device is mount
+    STORE_DEVICE_UMOUNT = 3020;  // the device is umount
+    STORE_IS_BUSY = 3021; // the obj is busy
+    STORE_MOUNPOINT_NOT_NULL = 3022; // the mounpoint is not null
+    STORE_LSOF_FAIL = 3023; // lsof xxx fail
+    STORE_QEMU_COMMAND_FAIL = 3024; // qemu command fail
+    STORE_NOT_ENOUGH_SPACE = 3025; // not enough space
+    STORE_ENVOY_FAIL = 3026; // run envoy fail
+    STORE_NOT_FOUND = 3027; // not found
+    STORE_MULTIPATHD_EXCEPTION = 3028; //multipathd  exception
+    STORE_IOERROR = 3029; //read or write fail
+    STORE_DATASTORE_LIST_ERROR = 3030; // use DATASTORE_LIST error
+    STORE_DATASTPRE_CFG_ERROR = 3031; // use datastore.cfg error
+}
+
+enum JobSatus {
+    JOBSTATUS_INVALID = 0;
+    JOBSTATUS_CREATED = 1;
+    JOBSTATUS_SUBMITTED = 2;
+    JOBSTATUS_PROCESSING = 3;
+    JOBSTATUS_FINISHED_SUCCESSFULLY = 4;
+    JOBSTATUS_FINISHED_FAILED = 5;
+}
+
+message QemuImgReply {
+    ErrorNumberType errno = 1;
+    string std_out = 2;
+}
