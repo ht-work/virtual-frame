@@ -1,0 +1,7 @@
+grpcio
+protobuf
+util-base
+psutil
+uptime
+py-dmidecode
+python-daemon

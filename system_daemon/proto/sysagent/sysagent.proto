@@ -1,0 +1,197 @@
+// python3 -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. sysagent.proto
+// sysagent.proto
+syntax = "proto3";
+
+import "sysagent/util.proto";
+import "google/protobuf/empty.proto";
+
+package sysagent;
+
+service SysAgent {
+    rpc ConnectHost(HostConnectRequest) returns (HostConnectReply) {}
+    rpc DisConnectHost(HostDisConnectRequest) returns (HostDisConnectReply) {}
+    rpc ModifyHostPasswd(HostPasswdModifyRequest) returns (HostPasswdModifyReply) {}
+    rpc GetVersion(VersionGetRequest) returns (VersionGetReply) {}
+    rpc GetHostInfo(HostInfoGetRequest) returns (HostInfoGetReply) {}
+    rpc BeatHeart(HeartBeatRequest) returns (HeartBeatReply) {}
+    rpc SyncHostInfo(HostInfoSyncRequest) returns (HostInfoSyncReply) {}
+    rpc QueryJob(JobQueryRequest) returns (JobQueryReply) {}
+    rpc DeleteJob(JobDeleteRequest) returns (JobDeleteReply) {}
+    rpc FileTransmit(FileTransmitRequest) returns (FileTransmitReply) {}
+    rpc StartFileServer(FileServerStartRequest) returns (FileServerStartReply) {}
+    rpc StartFileClient(FileClientStartRequest) returns (FileClientStartReply) {}
+    rpc SetHostMode(HostModeSetRequest) returns (HostModeSetReply) {}
+    rpc GetHostMode(google.protobuf.Empty) returns (HostModeGetReply) {}
+    rpc ShutdownHost(HostShutdownRequest) returns (HostShutdownReply) {}
+}
+
+message HostInfoSyncRequest {
+    message Host {
+        string hostname = 1;
+        string ip = 2;
+    }
+    repeated Host lists = 1;
+    repeated Host deletes = 2;
+}
+message HostInfoSyncReply {
+    util.ErrorNumberType errno = 1;
+}
+
+message HostConnectRequest {
+    string name = 1;
+    string passwd = 2;
+    string manager_ip = 3;
+    bool force = 4;
+}
+message HostConnectReply {
+    message msg {
+        bool is_managed = 1;
+        string manager_ip = 2;
+    }
+    msg body = 1;
+    util.ErrorNumberType errno = 2;
+}
+
+message HostDisConnectRequest {
+    string manager_ip = 1;
+}
+message HostDisConnectReply {
+    util.ErrorNumberType errno = 1;
+}
+
+message HostPasswdModifyRequest {
+    string name = 1;
+    string passwd = 2;
+    string passwd_new = 3;
+    bool force = 4;
+}
+message HostPasswdModifyReply {
+    util.ErrorNumberType errno = 1;
+}
+
+message VersionGetRequest {
+}
+message VersionGetReply {
+    message msg {
+        string inner = 1;
+        string outer = 2;
+    }
+    msg body = 1;
+    util.ErrorNumberType errno = 2;
+}
+
+message HostInfoGetRequest {
+}
+message HostInfoGetReply {
+    message msg {
+        string host_ip = 1;
+        string host_name = 2;
+        string host_arch = 3;
+        string host_module = 4;
+        string cpu_sockets = 5;
+        string cpu_cores_per_socket = 6;
+        string cpu_threads_per_core = 7;
+        string cpu_module = 8;
+        string cpu_speed = 9;
+        string cpu_rate = 10;
+        string mem_total = 11;
+        string mem_free = 12;
+        string ver_inner = 13;
+        string ver_outer = 14;
+        string time_now = 15;
+        string time_up = 16;
+    }
+    msg body = 1;
+    util.ErrorNumberType errno = 2;
+}
+
+message HeartBeatRequest {
+    string manager_ip = 1;
+}
+message HeartBeatReply {
+    util.ErrorNumberType errno = 1;
+}
+
+message JobQueryRequest {
+    string job_id = 1;
+}
+message JobQueryReply {
+    message msg {
+        string job_id = 1;
+        util.JobStatus status = 2;
+        int64 process = 3;             // 0 <= process <= 100
+    }
+    msg body = 1;
+    util.ErrorNumberType errno = 2;
+}
+
+message JobDeleteRequest {
+    string job_id = 1;
+}
+message JobDeleteReply {
+    util.ErrorNumberType errno = 1;
+}
+
+message FileTransmitRequest {
+    string local_ip = 1;
+    string local_path = 2;
+    string remote_ip = 3;
+    string remote_path = 4;
+    string grpc_ip = 5;
+    bool need_notify = 6;
+}
+
+message FileTransmitReply {
+    util.ErrorNumberType errno = 1;
+    string job_id = 2;
+}
+
+message FileServerStartRequest {
+    string server_ip = 1;
+    string operation = 2;
+    string path = 3;
+    bool need_notify = 4;
+}
+
+message FileServerStartReply {
+    util.ErrorNumberType errno = 1;
+    int32 server_port = 2;
+    string job_id = 3;
+}
+
+message FileClientStartRequest {
+    string local_path = 1;
+    string remote_path = 2;
+    string server_ip = 3;
+    int32 server_port = 4;
+    string operation = 5;
+    bool need_notify = 6;
+}
+
+message FileClientStartReply {
+    util.ErrorNumberType errno = 1;
+    string job_id = 2;
+}
+
+message HostModeSetRequest{
+    // @mode: unknown, normal, maintenance
+    string mode = 1;
+}
+
+message HostModeSetReply {
+    util.ErrorNumberType errno = 1;
+}
+
+message HostModeGetReply {
+    util.ErrorNumberType errno = 1;
+    string mode = 2;
+}
+
+message HostShutdownRequest {
+    // @shut_type: shutdown, reboot
+    string shut_type = 1;
+}
+
+message HostShutdownReply {
+    util.ErrorNumberType errno = 1;
+}

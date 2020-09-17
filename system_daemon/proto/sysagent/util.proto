@@ -1,0 +1,29 @@
+// python3 -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. util.proto
+// util.proto
+syntax = "proto3";
+
+package util;
+
+enum ErrorNumberType {
+    OK = 0;                // ok
+    SYS_FAIL = 1;          // fail
+    SYS_INVAL = 2;         // invalid argument
+    SYS_AGAIN = 3;         // repeated
+    SYS_NOTFOUND = 4;      // not found
+    SYS_NOTMATCH = 5;      // match error
+    SYS_USER_PASSWD = 6;   // wrong user or password
+    SYS_PERMISSION = 7;    // permission denied
+    SYS_PRECHECK_SET_FAIL = 8;       // precheck and set host mode failed
+    SYS_SETMODE_FAIL = 9;            // set host mode failed
+    SYS_RECHECKMODE_FAIL = 10;       // recheck host mode failed
+    SYS_CFGMODE_FAIL = 11;           // get/set host mode to cfg file failed
+}
+
+enum JobStatus {
+    JOBSTATUS_INVALID = 0;
+    JOBSTATUS_CREATED = 1;
+    JOBSTATUS_SUBMITTED = 2;
+    JOBSTATUS_PROCESSING = 3;
+    JOBSTATUS_FINISHED_SUCCESSFULLY = 4;
+    JOBSTATUS_FINISHED_FAILED = 5;
+}
