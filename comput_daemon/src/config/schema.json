@@ -1,0 +1,233 @@
+{
+    "domain": {
+        "type": "object",
+        "required": ["type", "name", "uuid", "memory", "vcpu", "cpu", "title", "devices"],
+        "properties": {
+            "name": {
+                "type": "string",
+                "minLength": 1
+            },
+            "uuid": {
+                "type": "string",
+                "pattern": "[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}"
+            },
+            "memory": {
+                "type": "string",
+                "pattern": "^[1-9]\\d*$"
+            },
+            "vcpu": {
+                "type": "object",
+                "required": ["num", "current"],
+                "properties": {
+                    "num": {
+                        "type": "string",
+                        "pattern": "^[1-9]\\d*$"
+                    },
+                    "current": {
+                        "type": "string",
+                        "pattern": "^[1-9]\\d*$"
+                    }
+                }
+            },
+            "cpu": {
+                "type": "object",
+                "required": ["cores"],
+                "properties": {
+                    "cores": {
+                        "type": "string",
+                        "pattern": "^[1-9]\\d*$"
+                    }
+                }
+            },
+            "title": {
+                "type": "string",
+                "minLength": 1
+            },
+            "metadata": {
+                "type": "string"
+            },
+            "os": {
+                "type": "object",
+                "required": ["boot"],
+                "properties": {
+                    "boot": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": ["dev"],
+                            "properties": {
+                                "dev": {
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "devices": {
+                "type": "object",
+                "required": ["disk", "interface"],
+                "properties": {
+                    "disk": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "type": "object",
+                            "required": ["dev", "properties"],
+                            "properties": {
+                                "dev": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "properties": {
+                                    "type": "object",
+                                    "required": ["type", "device", "driver_type", "target_bus"],
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "enum": ["file", "block"]
+                                        },
+                                        "device": {
+                                            "type": "string",
+                                            "enum": ["disk", "cdrom", "floppy", "lun"]
+                                        },
+                                        "driver_type": {
+                                            "type": "string",
+                                            "enum": ["raw", "qcow2"]
+                                        },
+                                        "source": {
+                                            "type": "string"
+                                        },
+                                        "target_bus": {
+                                            "type": "string",
+                                            "minLength": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "interface": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "type": "object",
+                            "required": ["dev", "properties"],
+                            "properties": {
+                                "dev": {
+                                    "type": "string",
+                                    "pattern": "^([0-9a-fA-F]{2})(([/\\s:][0-9a-fA-F]{2}){5})$"
+                                },
+                                "properties": {
+                                    "type": "object",
+                                    "required": ["source", "model_type", "driver_name"],
+                                    "properties": {
+                                        "source": {
+                                            "type": "string",
+                                            "minLength": 1
+                                        },
+                                        "model_type": {
+                                            "type": "string",
+                                            "minLength": 1
+                                        },
+                                        "driver_name": {
+                                            "type": "string",
+                                            "minLength": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "graphics": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": ["type"],
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "port": {
+                                    "type": "string"
+                                },
+                                "listen": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "video": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": ["type", "vram"],
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "vram": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "slot": {
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            }
+                        }
+                    },
+                    "serial": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": ["type", "source", "target", "port"],
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "source": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "target": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "port": {
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            }
+                        }
+                    },
+                    "console": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": ["type", "target", "port"],
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "target": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "port": {
+                                    "type": "string",
+                                    "minLength": 1
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

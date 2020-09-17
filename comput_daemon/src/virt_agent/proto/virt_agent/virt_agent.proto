@@ -1,0 +1,455 @@
+syntax = 'proto3';
+package virt_agent;
+
+import "google/protobuf/empty.proto";
+
+service VirtAgent {
+    rpc Echo (EchoReq) returns (EchoRes);
+    rpc HeartBeat (HeartBeatReq) returns (HeartBeatRes);
+    rpc QueryJob(QueryJobReq) returns (QueryJobRes);
+    rpc DeleteJob(DeleteJobReq) returns (DeleteJobRes);
+    rpc GetLibvirtVersion(GetLibvirtVersionReq) returns (GetLibvirtVersionRes);
+    rpc CreateDomain(DomainCreateReq) returns (DomainCreateRes);
+    rpc DeleteDomain(DomainDeleteReq) returns (DomainDeleteRes);
+    rpc ListDomains(google.protobuf.Empty) returns (DomainListRes);
+    rpc GetDomainsState(DomainsStateGetReq) returns (DomainsStateGetRes);
+    rpc DumpDomains(DomainsDumpReq) returns (DomainsDumpRes);
+    rpc ModifyDomain(DomainModifyReq) returns (DomainModifyRes);
+    rpc StartDomain(DomainStartReq) returns (DomainStartRes);
+    rpc StopDomain(DomainStopReq) returns (DomainStopRes);
+    rpc PrecheckMigration(MigrationPrecheckReq) returns (MigrationPrecheckRes);
+    rpc MigrateDomain(DomainMigrateReq) returns (DomainMigrateRes);
+    rpc FinishMigration(FinishMigrationReq) returns (FinishMigrationRes);
+    rpc PrepareMigration(PrepareMigrationReq) returns (PrepareMigrationRes);
+    rpc RevertMigration(RevertMigrationReq) returns (RevertMigrationRes);
+    // create snapshot with name for specified domain
+    rpc CreateSnapshot(SnapshotCreateReq) returns (SnapshotCreateRes);
+    // delete specified snapshot for specified domain
+    rpc DeleteSnapshot(SnapshotDeleteReq) returns (SnapshotDeleteRes);
+    // list all snapshot for specified domain
+    // SnapshotListReq include a domain list
+    // SnapshotListRes include a json string list which indicates snapshot information
+    // e.g.
+    // ['{"domain_uuid": "43205da4-afae-487c-af14-0daf9ed1473d",
+    //   "snap_info": [
+    //                 {"name": "snap3", "current": 1, "state": "shutoff", "parent": "snap1", "create_time": "1560841270"},
+    //                 {"name": "snap1", "current": 0, "state": "running", "parent": null, "create_time": "1560839529"},
+    //                 {"name": "snap2", "current": 0, "state": "running", "parent": "snap1", "create_time": "1560839530"}
+    //                ]
+    //  }',
+    // '{"domain_uuid": "9e05883d-bb5a-4255-9db8-9ed51a9be4d4",
+    //   "snap_info": [
+    //                 {"name": "snap-4e4a7a1c-d751-47c6-a8c0-88ec90b29f21", "current": 1, "state": "shutoff", "parent": null, "create_time": "1560245366"}
+    //                ]
+    //  }',
+    // '{"domain_uuid": "d9fda5cf-de03-4102-8d17-8e879be57dd7",
+    //   "snap_info": []}']
+    rpc ListSnapshot(SnapshotListReq) returns (SnapshotListRes);
+    // revert to specified snapshot for specified domain
+    rpc RevertSnapshot(SnapshotRevertReq) returns (SnapshotRevertRes);
+    rpc PrecheckMode(PreCheckModeReq) returns (PrecheckModeRes);
+    rpc SetHostMode(SetHostModeReq) returns (SetHostModeRes);
+    rpc GetHostMode(GetHostModeReq) returns (GetHostModeRes);
+    rpc PrecheckAndSetHostMode(PrecheckAndSetHostModeReq) returns (PrecheckAndSetHostModeRes);
+}
+
+enum Code {
+    LIBVIRT_ERR_OK = 0;
+    LIBVIRT_ERR_INTERNAL_ERROR = 1001;           // internal error
+    LIBVIRT_ERR_NO_CONNECT = 1002;               // can not connect to hypervisor
+    LIBVIRT_ERR_OPERATION_FAILED = 1003;         // a command to hypervisor failed
+    LIBVIRT_ERR_XML_ERROR = 1004;                // an XML description is not well formed or broken
+    LIBVIRT_ERR_DOM_EXIST = 1005;                // the domain already exist
+    LIBVIRT_ERR_INVALID_NETWORK = 1006;          // invalid network object
+    LIBVIRT_ERR_NO_DOMAIN = 1007;                // domain not found or unexpectedly disappeared
+    LIBVIRT_ERR_AUTH_FAILED = 1008;              // authentication failed
+    LIBVIRT_ERR_OPERATION_TIMEOUT = 1009;        // timeout occurred during operation
+    LIBVIRT_ERR_OPERATION_ABORTED = 1010;        // the operation was aborted
+    LIBVIRT_ERR_OPERATION_UNSUPPORTED = 1011;    // the operation was unsupported
+    LIBVIRT_ERR_RESOURCE_BUSY = 1012;
+    VIRT_AGENT_ERR_INVALID_UUID = 1013;
+    VIRT_AGENT_ERR_INVALID_JOB_ID = 1014;
+    VIRT_AGENT_ERR_NOT_IMPLEMENTED = 1015;
+    VIRT_AGENT_ERR_JSON_INVALID = 1016;
+    VIRT_AGENT_ERR_MIGRATION_NON_SHARED_STORAGE_UNMIGRATED = 1017;
+    VIRT_AGENT_ERR_MIGRATION_NO_SUCH_DST_STORAGE_POOL= 1018;
+    VIRT_AGENT_ERR_MIGRATION_BASE_IMAGE_NAME_CONFLICT_IN_DST_STORAGE_POOL= 1019;
+    VIRT_AGENT_ERR_MIGRATION_DISK_NAME_CONFLICT_IN_DST_STORAGE_POOL = 1020;
+    VIRT_AGENT_ERR_MIGRATION_NO_SPACE_IN_DST_STORAGE_POOL = 1021;
+    VIRT_AGENT_ERR_MIGRATION_DISK_NOT_IN_USE= 1022;
+    VIRT_AGENT_ERR_MIGRATION_BACKINGFILE_NOT_IN_USE= 1023;
+    VIRT_AGENT_ERR_MIGRATION_NO_SPACE_LEFT_AT_DESTINATION = 1024;
+    VIRT_AGENT_ERR_MIGRATION_BACKINGFILE_MD5_CHECK_ERROR = 1025;
+    VIRT_AGENT_ERR_MIGRATION_COPY_IMAGE_ERROR = 1026;
+    VIRT_AGENT_ERR_MIGRATION_GET_IMAGE_INFO_FAILED= 1027;
+}
+
+enum JobStatus {
+    JOBSTATUS_INVALID = 0;
+    JOBSTATUS_CREATED = 1;
+    JOBSTATUS_SUBMITTED = 2;
+    JOBSTATUS_PROCESSING = 3;
+    JOBSTATUS_FINISHED_SUCCESSFULLY = 4;
+    JOBSTATUS_FINISHED_FAILED = 5;
+}
+
+enum OperationType {
+    OPERATION_TYPE_ADD = 0;
+    OPERATION_TYPE_DELETE = 1;
+    OPERATION_TYPE_UPDATE = 2;
+    OPERATION_TYPE_MOUNT = 3;
+    OPERATION_TYPE_UMOUNT = 4;
+}
+
+message EchoReq {
+    string context = 1;
+}
+
+message EchoRes {
+    string context = 1;
+}
+
+message HeartBeatReq {
+    string hbid = 1;
+}
+
+message HeartBeatRes {
+    string hbid = 1;
+}
+
+message QueryJobReq {
+    string job_id = 1;
+}
+
+message QueryJobRes {
+    Code code =  1;
+    string job_id = 2;
+    JobStatus status = 3;
+    // 0 <= process <= 100
+    int32 process = 4;
+}
+
+message DeleteJobReq {
+    string job_id = 1;
+}
+
+message DeleteJobRes {
+    Code code =  1;
+}
+
+message GetLibvirtVersionReq {
+    string nomsg = 1;
+}
+
+message GetLibvirtVersionRes {
+    // e.g. {"libvirt": 5003000, "qemu": 4000000}
+    string libvirt_version = 1;
+}
+
+message DomainStateModel {
+    string uuid = 1;
+    string state = 2;
+}
+
+// e.g  json_data = `{
+//      "type":"test",
+//      "uuid":"test",
+//      "memory":"test",
+//      "vcpu":"test",
+//      "cpu":"test",
+//      "title":"test",
+//      "devices": {
+//          "disk": [{
+//              "type":"test",
+//              "device":"test",
+//              "driver_type":"test",
+//              "source":"test",
+//              "target_type":"test",
+//              "target_bus":"test",
+//          }],
+//          "interface": [{
+//              "source":"test",
+//              "mac":"test",
+//              "model_type":"test",
+//              "driver_name":"test"
+//          }]
+//      }
+// }`
+//
+// See more infomation at /etc/vap/schema.json
+message DomainCreateReq {
+    string os_type = 1;
+    string json_data = 2;
+}
+
+message DomainDeleteReq {
+    string uuid = 1;
+}
+
+message DomainsStateGetReq {
+    repeated string uuids = 1;
+}
+
+message DomainsDumpReq {
+    repeated string uuids = 1;
+}
+
+
+// e.g
+// Add disks:
+// {
+//     'devices':{
+//         'disk':[
+//             {
+//                 'dev': 'sda',
+//                 'properties': {
+//                     'driver_type':'raw'
+//                 }
+//             }
+//         ]
+//     }
+// }
+// Modify mac address:
+// {
+//     'devices':{
+//         'interface':[
+//             {
+//                 'dev': 'xxx'
+//                 'properties': {
+//                     'mac':'yyyyy'
+//                 }
+//             }
+//         ]
+//     }
+// }
+// Modify cpu:
+// {
+//     'cpu':{
+//         'cores':'1',
+//         'sockets':'1'
+//     }
+// }
+message DomainModifyReq {
+    string uuid = 1;
+    OperationType type = 2;
+    string json_data = 3;
+}
+
+message DomainStartReq {
+    string uuid = 1;
+    bool no_need_notify = 3;
+}
+
+message DomainStopReq {
+    string uuid = 1;
+    bool no_need_notify = 2;
+    bool force = 3;
+}
+
+// destination: ip address of migration destination.
+// time_out: use 300s as usual
+// destination_json: use to generate dest xml from local xml, e.g 
+// {
+//      "devices": {
+//          "disk":[{
+//          "dev":"sda",
+//          "properties":{
+//                 "source":"/vms/images/t.img"
+//          },
+//          "migrate_backingfiles": [{
+//              "filename": /vms/images/b1.img,
+//              "dst_filename": /var/lib/libvirt/images/b1.img
+//          }]
+//     }
+// }
+message DomainMigrateReq {
+    string uuid = 1;
+    bool no_need_notify = 2;
+    string destination = 3;
+    bool postcopy = 4;
+    int64 time_out = 5;
+    string destination_json = 6;
+}
+
+message MigrationPrecheckReq {
+    string uuid = 1;
+    string destination = 2;
+    string destination_json = 3;
+}
+
+message FinishMigrationReq {
+    string uuid = 1;
+    repeated string snap_xmls = 2;
+    string tmp_info= 3;
+}
+
+message PrepareMigrationReq {
+    bool live = 1;
+    string destination_json = 2;
+    string tmp_info = 3;
+}
+
+message RevertMigrationReq {
+    string uuid = 1;
+    string destination_json = 2;
+    string tmp_info = 3;
+}
+
+message DomainCreateRes {
+    Code code =  1;
+    string err_msg =  2;
+}
+
+message DomainDeleteRes {
+    Code code =  1;
+    string err_msg =  2;
+}
+
+message DomainListRes {
+    Code code =  1;
+    repeated string domains = 2;
+    string err_msg =  3;
+}
+
+message DomainsStateGetRes {
+    Code code =  1;
+    repeated DomainStateModel states = 2;
+    string err_msg =  3;
+}
+
+message DomainsDumpRes {
+    Code code =  1;
+    repeated string domains = 2;
+    string err_msg =  3;
+}
+
+message DomainModifyRes {
+    Code code =  1;
+    string err_msg =  2;
+}
+
+message DomainStartRes {
+    Code code =  1;
+    string err_msg =  2;
+    string job_id =  3;
+}
+
+message DomainStopRes {
+    Code code =  1;
+    string err_msg =  2;
+    string job_id =  3;
+}
+
+message DomainMigrateRes {
+    Code code =  1;
+    string err_msg =  2;
+    string job_id =  3;
+}
+
+message MigrationPrecheckRes {
+    Code code =  1;
+    string err_msg = 2;
+}
+
+message FinishMigrationRes {
+    Code code =  1;
+    string err_msg = 2;
+    string job_id =  3;
+}
+
+message PrepareMigrationRes {
+    Code code =  1;
+}
+
+message RevertMigrationRes {
+    Code code =  1;
+    string err_msg = 2;
+}
+
+message SnapshotCreateReq {
+    // domain uuid
+    string dom_uuid = 1;
+    // snapshot name
+    string name = 2;
+    // true: live snapshot, with memory content
+    // false: just disk snapshot.
+    bool with_memory = 3;
+    // false on default
+    bool no_need_notify = 4;
+}
+
+message SnapshotCreateRes {
+    Code code =  1;
+    // job id, uuid string
+    string job_id = 2;
+}
+
+message SnapshotDeleteReq {
+    // domain uuid
+    string dom_uuid = 1;
+    // snapshot name
+    repeated string names = 2;
+    // false on default
+    bool no_need_notify = 3;
+}
+
+message SnapshotDeleteRes {
+    Code code =  1;
+    // job id, uuid string
+    string job_id = 2;
+}
+
+message SnapshotListReq {
+    // domian uuid
+    repeated string dom_uuid = 1;
+}
+
+message SnapshotListRes {
+    Code code =  1;
+    // json string, contain domain and snapshot info.
+    repeated string snapshot_info = 2;
+}
+
+message SnapshotRevertReq {
+    // domain uuid
+    string dom_uuid = 1;
+    // snapshot name
+    string name = 2;
+}
+
+message SnapshotRevertRes {
+    Code code =  1;
+}
+
+message PreCheckModeReq {
+    string mode = 1;
+}
+
+message PrecheckModeRes {
+    Code code =  1;
+    bool result = 2;
+}
+
+message SetHostModeReq {
+    string mode = 1;
+}
+
+message SetHostModeRes {
+    Code code =  1;
+}
+
+message GetHostModeReq {
+}
+
+message GetHostModeRes {
+    Code code =  1;
+    string mode = 2;
+}
+
+message PrecheckAndSetHostModeReq {
+    string mode = 1;
+}
+
+message PrecheckAndSetHostModeRes {
+    Code code =  1;
+}
