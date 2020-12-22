@@ -1,0 +1,19 @@
+asset:
+  host: "http://192.168.1.186:8080"
+  itemQuery: "query"
+  listQuery: "listquery"
+  deviceDetail: "/api/v1/device"
+  alertStat: "/api/v1/stat/alert"
+  appStat: "/api/v1/stat/app"
+  rpStat: "/api/v1/stat/rp"
+  apps: "/api/v1/apps"
+#  tenants: "/api/v1/tenants"
+  rps: "/api/v1/rps"
+  alertWeight:
+    urgent: 100
+    important: 10
+    secondary: 1
+    normal: 0
+other:
+  refresh: 60
+  port: 8090

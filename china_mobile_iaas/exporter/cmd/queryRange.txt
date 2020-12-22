@@ -1,0 +1,1 @@
+http://10.129.137.221:8080/api/v1/query_range?start=1604553725.36&end=1604557325.36&step=300&query=te_resource_assign_ratio%7Btenant%3D%221121d0d68dc84973a79a9936a1c352d8%22%7D

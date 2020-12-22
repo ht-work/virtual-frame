@@ -1,0 +1,51 @@
+curl -H "Content-Type:application/json" -X "POST" -d '{"token":"aHR5dys5YWE0MGI1Zi0xYTdlLTExZWItOTMwNy0wMDUwNTZhODBjMzk=","condicationCode":"htyw_ci_search"}' http://172.16.20.222:28129/v1/cmdb/restful/common/instance/list
+
+
+ curl -X GET --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'token: chinamobileiaaschinamobileiaas' 'http://127.0.0.1:8080/api/v1/stat/alert?id=a7f0ac84163c49a7a5f479863199b03c
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" http://127.0.0.1:8080/api/v1/stat/alert?id=a7f0ac84163c49a7a5f479863199b03c
+
+
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" http://127.0.0.1:8080/api/v1/stat/alert?id=9a9d2b22695f4ecb81bb4d10f18ac688
+
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" http://127.0.0.1:8080/api/v1/stat/alert?id=5510b71405284197a72f76d80edfb222
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" http://127.0.0.1:8080/api/v1/stat/alert?id=1dfbf48541bb4b35bb7fdea798e27a2b
+
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" http://127.0.0.1:8080/api/v1/stat/alert?id=
+
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" http://127.0.0.1:8080/api/v1/stat/app?id=aef505aaba3d4e4da6e33410f6fbdbc4
+
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" http://10.129.137.221:8080/api/v1/query?query=topk(3,te_score)
+
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" http://10.129.137.221:8080/api/v1/query?query=topk(3%2Cte_score)
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" "http://10.129.137.221:8080/api/v1/query?query=topk(3,te_score)"
+
+
+#docker启动命令
+docker run -u root -d --name iaas-prom --restart=always -p 10003:9090 \
+    -v /home/lyj/iaas-deploy/prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml\
+    -v /home/lyj/iaas-deploy/prometheus/config/rule.yml:/etc/prometheus/rule.yml\
+    -v /data/prometheus:/prometheus\
+    prom/prometheus-linux-amd64:v2.21.0
+	
+	
+#删除容器命令
+docker rm -f iaas-prom
+	
+	
+	
+10.129.137.221

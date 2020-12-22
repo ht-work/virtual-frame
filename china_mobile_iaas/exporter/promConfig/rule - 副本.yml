@@ -1,0 +1,141 @@
+groups:
+  - name: device_summary
+    rules:
+    #可用度
+    - record: device_ha
+      expr: 100 - (sum_over_time(device_un_available[7d]) / count_over_time(device_un_available[7d])) * 100
+    #CPU利用率
+    - record: device_cpu_usage_avg
+      expr: avg(device_cpu_usage) by (type)
+    #内存利用率
+    - record: device_mem_usage_avg
+      expr: avg(device_mem_usage) by (type)
+    #业务系统相关指标
+  - name: app_summary
+    rules:
+    #CPU利用率总和
+    - record: app_cpu_usage_total
+      expr: sum(device_cpu_usage) by (type,app,tenant,rp)
+    #采集设备数
+    - record: app_device_count
+      expr: count(device_cpu_usage) by (type,app,tenant,rp)
+    #CPU利用率
+    - record: app_cpu_usage
+      expr: app_cpu_usage_total / app_device_count
+    #内存利用率总和
+    - record: app_mem_usage_total
+      expr: sum(device_mem_usage) by (type,app,tenant,rp)
+    #内存利用率
+    - record: app_mem_usage
+      expr: app_mem_usage_total / app_device_count
+    #资源繁忙度（VM、BM）
+    - record: app_resource_busy
+      expr: (app_cpu_usage + app_mem_usage)/2
+    #业务系统CPU利用率
+    - record: app_cpu_usage_avg
+      expr: 100 * sum(app_cpu_usage_total{app!=""}) by (app,tenant,rp) / sum(app_device_count{app!=""}) by (app,tenant,rp)
+    #业务系统内存利用率
+    - record: app_mem_usage_avg
+      expr: 100 * sum(app_mem_usage_total{app!=""}) by (app,tenant,rp) / sum(app_device_count{app!=""}) by (app,tenant,rp)
+    #业务系统繁忙度
+    - record: app_busy
+      expr: (app_cpu_usage_avg + app_mem_usage_avg)/2
+    #业务系统不平衡度
+    - record: app_unbalance
+      expr: abs(app_cpu_usage_avg - app_mem_usage_avg)
+    #业务系统健康度
+    - record: app_health
+      expr: avg(device_health{app!=""}) by (app,tenant,rp)
+    #业务系统可用度
+    - record: app_ha
+      expr: avg(device_ha{app!=""}) by (app,tenant,rp)
+    ### TODO：使用率/分配率相关
+    ### FIX：无需提供，在采集器中直接提供使用率相关数据
+    #租户相关指标
+  - name: tenant_summary
+    rules:
+    #CPU利用率总和
+    - record: te_cpu_usage_total
+      expr: sum(app_cpu_usage_total) by (type,tenant,rp)
+    #采集设备数
+    - record: te_device_count
+      expr: sum(app_device_count) by (type,tenant,rp)
+    #CPU利用率
+    - record: te_cpu_usage
+      expr: te_cpu_usage_total{tenant!=""} / te_device_count
+    #内存利用率总和
+    - record: te_mem_usage_total
+      expr: sum(app_mem_usage_total) by (type,tenant,rp)
+    #内存利用率
+    - record: te_mem_usage
+      expr: te_mem_usage_total{tenant!=""} / te_device_count
+    #资源繁忙度（VM、BM）
+    - record: te_resource_busy
+      expr: (te_cpu_usage + te_mem_usage)/2
+    #资源不平衡度（VM、BM）
+    - record: te_resource_unbalance
+      expr: abs(te_cpu_usage-te_mem_usage)
+    #CPU评分
+    - record: te_cpu
+      expr: avg( clamp_max((-1)*te_cpu_usage*te_cpu_usage/24+100*te_cpu_usage/24, 100) ) by (tenant,rp)
+    #内存评分
+    - record: te_mem
+      expr: avg( clamp_max((-1)*te_mem_usage*te_mem_usage/35+120*te_mem_usage/35, 100) ) by (tenant,rp)
+    #租户繁忙度
+    - record: te_busy
+      expr: avg(te_resource_busy) by (tenant,rp)
+    #租户不平衡度
+    - record: te_unbalance
+      expr: avg(te_resource_unbalance) by (tenant,rp)
+    ### TODO：使用率/分配率相关
+    ### FIX：定义如下
+    #租户使用总数
+    - record: te_resource_assign
+      expr: sum(app_resource_assign) by (type,tenant,rp)
+    #租户配额总数
+    - record: te_resource_quota
+      expr: sum(app_resource_quota) by (type,tenant,rp)
+    #租户配额，该值为VM和BM的总和，用于在资源池页面作为top5展示
+    - record: te_quota_sum
+      expr: sum(app_resource_quota{type=~"BM|VM"}) by (tenant,rp)
+    #租户资源使用率（分类型）
+    - record: te_resource_assign_ratio
+      expr: 100*te_resource_assign/te_resource_quota
+    #租户使用率
+    - record: te_assign_ratio
+      expr: 100 * sum(te_resource_assign{type=~"BM|VM"}) by (tenant,rp) / sum(app_resource_quota{type=~"BM|VM"}) by (tenant,rp)
+    #租户资源利用评分
+    - record: te_usage_score
+      expr: te_assign_ratio*0.4 + ((te_cpu+te_mem)/2)*0.4 + (100-te_unbalance)*0.2
+    #租户评分
+    - record: te_score
+      expr: te_usage_score*1
+    #资源池相关指标
+  - name: rp_summary
+    rules:
+    #CPU利用率总和
+    - record: rp_cpu_usage_total
+      expr: sum(te_cpu_usage_total) by (type,rp)
+    #采集设备数
+    - record: rp_device_count
+      expr: sum(te_device_count) by (type,rp)
+    #CPU利用率
+    - record: rp_cpu_usage
+      expr: rp_cpu_usage_total / rp_device_count
+    #内存利用率总和
+    - record: rp_mem_usage_total
+      expr: sum(te_mem_usage_total) by (type,rp)
+    #内存利用率
+    - record: rp_mem_usage
+      expr: rp_mem_usage_total / rp_device_count
+    #资源繁忙度（VM、BM）
+    - record: rp_resource_busy
+      expr: (rp_cpu_usage+rp_mem_usage)/2
+    ### TODO：使用率/分配率相关
+    ### FIX：定义如下
+    #已分配总数，为租户配额累加
+    - record: rp_resource_assign
+      expr: sum(te_resource_quota) by (type,rp)
+    #资源分配率，rp_resource_quota为基础指标，由采集器直接提供
+    - record: rp_resource_assign_ratio
+      expr: 100*rp_resource_assign/rp_resource_quota

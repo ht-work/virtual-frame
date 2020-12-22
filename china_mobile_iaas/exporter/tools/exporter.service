@@ -1,0 +1,14 @@
+[Unit]
+Description=Exporter service for IaaS Platform
+After=network.service
+
+[Service]
+Type=simple
+Environment=env=product
+Restart=on-failure
+ExecStart=/usr/local/bin/exporter
+ExecStop=/bin/kill -TERM $MAINPID
+TimeoutSec=10
+
+[Install]
+WantedBy=multi-user.target
