@@ -1,0 +1,37 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [{
+      "metric": {
+        "__name__": "device_unbalance",
+        "id": "2",
+        "app": "2",
+        "tenant": "2",
+        "rp": "7"
+      },
+      "value": [1604565416.282,"76"]
+    },
+      {
+        "metric": {
+          "__name__": "device_unbalance",
+          "id": "3",
+          "app": "3",
+          "tenant": "3",
+          "rp": "7"
+        },
+        "value": [1604565416.282,"65"]
+      },
+      {
+        "metric": {
+          "__name__": "device_unbalance",
+          "id": "1",
+          "app": "1",
+          "tenant": "1",
+          "rp": "7"
+        },
+        "value": [1604565416.282,"55"]
+      }
+    ]
+  }
+}

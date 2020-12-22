@@ -1,0 +1,46 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [{
+      "metric": {
+        "__name__": "te_assign_ratio",
+        "rp": "huchi1",
+        "tenant": "3"
+      },
+      "value": [1604565416.282,"40"]
+    },
+      {
+        "metric": {
+          "__name__": "te_assign_ratio",
+          "rp": "huchi1",
+          "tenant": "4"
+        },
+        "value": [1604565416.282,"30"]
+      },
+      {
+        "metric": {
+          "__name__": "te_assign_ratio",
+          "rp": "huchi1",
+          "tenant": "5"
+        },
+        "value": [1604565416.282,"20"]
+      },
+      {
+        "metric": {
+          "__name__": "te_assign_ratio",
+          "rp": "huchi1",
+          "tenant": "1"
+        },
+        "value": [1604565416.282,"10"]
+      },
+      {
+        "metric": {
+          "__name__": "te_assign_ratio",
+          "rp": "huchi1",
+          "tenant": "2"
+        },
+        "value": [1604565416.282,"5"]
+      }]
+  }
+}

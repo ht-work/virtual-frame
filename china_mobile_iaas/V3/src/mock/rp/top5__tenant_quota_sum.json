@@ -1,0 +1,46 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [{
+      "metric": {
+        "__name__": "te_quota_sum",
+        "tenant": "2",
+        "rp": "20"
+      },
+      "value": [1604565416.282,"3400"]
+    },
+      {
+        "metric": {
+          "__name__": "te_quota_sum",
+          "tenant": "3",
+          "rp": "20"
+        },
+        "value": [1604565416.282,"576"]
+      },
+      {
+        "metric": {
+          "__name__": "te_quota_sum",
+          "tenant": "4",
+          "rp": "20"
+        },
+        "value": [1604565416.282,"376"]
+      },
+      {
+        "metric": {
+          "__name__": "te_quota_sum",
+          "tenant": "1",
+          "rp": "20"
+        },
+        "value": [1604565416.282,"276"]
+      },
+      {
+        "metric": {
+          "__name__": "te_quota_sum",
+          "tenant": "5",
+          "rp": "20"
+        },
+        "value": [1604565416.282,"178"]
+      }]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "total": 5,
+  "data": [
+    {
+      "name": "tenant1",
+      "id": "1"
+    },
+    {
+      "name": "tenant2",
+      "id": "2"
+    },
+    {
+      "name": "tenant3",
+      "id": "3"
+    },
+    {
+      "name": "tenant4",
+      "id": "4"
+    },
+    {
+      "name": "tenant5",
+      "id": "5"
+    }
+  ]
+}

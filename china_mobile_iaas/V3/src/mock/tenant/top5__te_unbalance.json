@@ -1,0 +1,51 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [{
+      "metric": {
+        "__name__": "app_unbalance",
+        "app": "2",
+        "rp": "huchi1",
+        "tenant": "7"
+      },
+      "value": [1604565416.282,"40"]
+    },
+      {
+        "metric": {
+          "__name__": "app_unbalance",
+          "app": "3",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"30"]
+      },
+      {
+        "metric": {
+          "__name__": "app_unbalance",
+          "app": "4",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"20"]
+      },
+      {
+        "metric": {
+          "__name__": "app_unbalance",
+          "app": "1",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"10"]
+      },
+      {
+        "metric": {
+          "__name__": "app_unbalance",
+          "app": "5",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"5"]
+      }]
+  }
+}

@@ -1,0 +1,382 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "033807b197a84db2a60a52db059e0944",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          15
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "033807b197a84db2a60a52db059e0944",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          16
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "05815a91eb134ab595936366a4804270",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          21
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "05815a91eb134ab595936366a4804270",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          21
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "4a27f798cc29418f96c4aab723e67e34",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          22
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "4a27f798cc29418f96c4aab723e67e34",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          22
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6cb8fe27ad24447fbf8eb80647674777",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          23
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6cb8fe27ad24447fbf8eb80647674777",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          23
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40d7d3-90a7-11e9-bb30-0242ac110002",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          24
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40d7d3-90a7-11e9-bb30-0242ac110002",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          24
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40d847-90a7-11e9-bb30-0242ac110002",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          25
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40d847-90a7-11e9-bb30-0242ac110002",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          25
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40db4e-90a7-11e9-bb30-0242ac110002",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          26
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40db4e-90a7-11e9-bb30-0242ac110002",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          26
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40dba3-90a7-11e9-bb30-0242ac110002",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          27
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40dba3-90a7-11e9-bb30-0242ac110002",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          27
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40dbaf-90a7-11e9-bb30-0242ac110002",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          28
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40dbaf-90a7-11e9-bb30-0242ac110002",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          28
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40dbaf-90a7-11e9-bb30-0242ac1100044",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          29
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "6d40dbaf-90a7-11e9-bb30-0242ac1100044",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          29
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "91be615f061440f4808007c69045298d",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          30
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "91be615f061440f4808007c69045298d",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          30
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "9d39bbbdbe6e4293adcac19cc37703eb",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          31
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "9d39bbbdbe6e4293adcac19cc37703eb",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          31
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "c036d6c902e842e5893728d8a6ba1e3b",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          32
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "c036d6c902e842e5893728d8a6ba1e3b",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          32
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "c2a6c91ccdee428ab2e1a925ead19ea3",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          33
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "c2a6c91ccdee428ab2e1a925ead19ea3",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          33
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "c52474b9a3f445819a6abca0c400944c",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          34
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "c52474b9a3f445819a6abca0c400944c",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          34
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "f887c61894b04e3badae21541bebc39a",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          35
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "f887c61894b04e3badae21541bebc39a",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          35
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "fa7e4227dc9d4b81aed039440b3ea3c2",
+          "type": "BM"
+        },
+        "value": [
+          1604565416.282,
+          36
+        ]
+      },
+      {
+        "metric": {
+          "__name__": "rp_resource_assign_ratio",
+          "rp": "fa7e4227dc9d4b81aed039440b3ea3c2",
+          "type": "PM"
+        },
+        "value": [
+          1604565416.282,
+          36
+        ]
+      }
+    ]
+  }
+}

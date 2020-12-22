@@ -1,0 +1,30 @@
+{
+  "total": 5,
+  "data": [
+    {
+      "name": "abc1",
+      "ip": "123.123.123.1",
+      "id": "vm1"
+    },
+    {
+      "name": "bare machine1",
+      "ip": "123.123.123.2",
+      "id": "bm1"
+    },
+    {
+      "name": "bare machine2",
+      "ip": "123.123.123.3",
+      "id": "bm2"
+    },
+    {
+      "name": "physical machine 1",
+      "ip": "123.123.123.4",
+      "id": "pm1"
+    },
+    {
+      "name": "physical machine 2",
+      "ip": "123.123.123.5",
+      "id": "pm2"
+    }
+  ]
+}

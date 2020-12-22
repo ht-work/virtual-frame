@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "te_score",
+          "tenant": "7",
+          "rp": "哈尔滨资源池id"
+        },
+        "value": [1604310122.296, "67"]
+      }
+    ]
+  }
+}

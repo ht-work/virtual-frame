@@ -1,0 +1,108 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+      "metric": {
+        "__name__": "app_resource_busy",
+        "type": "BM",
+        "app": "2",
+        "rp": "huchi1",
+        "tenant": "7"
+      },
+      "value": [1604565416.282,"34"]
+    },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "BM",
+          "app": "3",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"45"]
+      },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "BM",
+          "app": "4",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"56"]
+      },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "BM",
+          "app": "1",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"67"]
+      },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "BM",
+          "app": "5",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"78"]
+      },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "VM",
+          "app": "2",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"34"]
+      },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "VM",
+          "app": "3",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"45"]
+      },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "VM",
+          "app": "4",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"56"]
+      },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "VM",
+          "app": "1",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"67"]
+      },
+      {
+        "metric": {
+          "__name__": "app_resource_busy",
+          "type": "VM",
+          "app": "5",
+          "rp": "huchi1",
+          "tenant": "7"
+        },
+        "value": [1604565416.282,"78"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+      "metric": {
+        "__name__": "device_mem_usage_avg",
+        "type": "VM"
+      },
+      "value": [1604310122.296,
+        "76"]
+    }
+    ]
+  }
+}

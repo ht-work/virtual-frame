@@ -1,0 +1,56 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [{
+      "metric": {
+        "__name__": "device_health",
+        "id": "vm1",
+        "app": "app1",
+        "rp": "huchi1",
+        "tenant": "IT"
+      },
+      "value": [1604565416.282,"34"]
+    },
+      {
+        "metric": {
+          "__name__": "device_health",
+          "id": "bm1",
+          "app": "app1",
+          "rp": "huchi1",
+          "tenant": "IT"
+        },
+        "value": [1604565416.282,"45"]
+      },
+      {
+        "metric": {
+          "__name__": "device_health",
+          "id": "bm2",
+          "app": "app1",
+          "rp": "huchi1",
+          "tenant": "IT"
+        },
+        "value": [1604565416.282,"56"]
+      },
+      {
+        "metric": {
+          "__name__": "device_health",
+          "id": "pm1",
+          "app": "app1",
+          "rp": "huchi1",
+          "tenant": "IT"
+        },
+        "value": [1604565416.282,"67"]
+      },
+      {
+        "metric": {
+          "__name__": "device_health",
+          "id": "pm2",
+          "app": "app1",
+          "rp": "huchi1",
+          "tenant": "IT"
+        },
+        "value": [1604565416.282,"78"]
+      }]
+  }
+}
