@@ -1,0 +1,36 @@
+listenAddr: ":8083"
+list_url : "http://172.16.20.222:28129/v1/cmdb/restful/common/instance/list"
+detail_url : "http://172.16.20.222:28129/v1/cmdb/restful/common/instance/detail"
+monitor_url: "http://127.0.0.1:8090/perf"
+token: "aHR5dys5YWE0MGI1Zi0xYTdlLTExZWItOTMwNy0wMDUwNTZhODBjMzk="
+log_level: 10
+
+prometheus:
+  server: "127.0.0.1"
+  port: "10003"
+  uri: "/api/v1/query"        #配置query数据转发的uri
+  uri_range: "/api/v1/query_range"     #配置query range数据转发的uri
+
+database:
+  user: "root"
+  password: "root"
+  host: "127.0.0.1"
+  port: "3306"
+  proto: "tcp"
+  db: "iaas"
+  driver: "mysql"
+  maxIdleConnCount: 2
+  maxConLifeTime: 60
+
+kafka:
+  topic_list: "TOPIC_RESOURCES_CMDB,TOPIC_RESOURCES_ALERTS,performance-huchi,performance-hachi,performance-xxg,performance-nanji"
+ # topic_list: "TOPIC_RESOURCES_CMDB,TOPIC_RESOURCES_ALERTS,performance-hachi,performance-xxg,performance-nanji"
+  topics:
+    cmdb: "TOPIC_RESOURCES_CMDB"
+    alert: "TOPIC_RESOURCES_ALERTS"
+    #monitor: "performance-huchi"
+    #topics: "TOPIC_RESOURCES_CMDB"
+  brokers: "10.129.74.35:9092,10.129.76.90:9092,10.129.75.165:9092,10.129.74.221:9092"
+  #brokers: "10.129.74.35:9092,10.129.76.90:9092,10.129.75.165:9092,10.129.74.221:9092,192.168.74.27:9092,192.168.74.35:9092,192.168.74.39:9092"
+  consumer_group: "consumerGroup"
+

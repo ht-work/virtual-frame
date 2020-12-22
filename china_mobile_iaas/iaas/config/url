@@ -1,0 +1,4 @@
+curl -H "Content-Type:application/json" -X "POST" -d '{"token":"aHR5dys5YWE0MGI1Zi0xYTdlLTExZWItOTMwNy0wMDUwNTZhODBjMzk=","condicationCode":"htyw_ci_search"}' http://172.16.20.222:28129/v1/cmdb/restful/common/instance/list
+
+
+ curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'head_orgAccount: alauda' --header 'head_userName: alauda' --header 'head_isAdmin: true' --header 'head_isSuperUser: true' -d '{"token":"aHR5dys5YWE0MGI1Zi0xYTdlLTExZWItOTMwNy0wMDUwNTZhODBjMzk=","condicationCode":"htyw_ci_search"}' 'http://172.16.20.222:28129/v1/cmdb/restful/common/instance/list'

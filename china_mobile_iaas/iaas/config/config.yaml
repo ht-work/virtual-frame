@@ -1,0 +1,33 @@
+listenAddr: ":8080"
+list_url: "http://127.0.0.1:8080/api/v1/cmdb/restful/common/instance/list"
+detail_url: "http://127.0.0.1:8080/api/v1/cmdb/restful/common/instance/detail"
+monitor_url: "http://192.168.1.37:8090/perf"        #性能数据转发到此地址
+token: "aHR5dys5YWE0MGI1Zi0xYTdlLTExZWItOTMwNy0wMDUwNTZhODBjMzk="
+log_level: 5              #5,4,3,2,1
+init_whole_data: true
+
+prometheus:
+  server: "192.168.1.37"
+  port: "9090"
+  uri: "/api/v1/query?query=up"        #配置query数据转发的uri
+  uri_range: "/api/v1/query_range"     #配置query range数据转发的uri
+
+database:
+  user: "root"
+  password: "root"
+  host: "192.168.1.221"
+  port: "3306"
+  proto: "tcp"
+  db: "iaas"
+  driver: "mysql"
+  maxIdleConnCount: 2
+  maxConLifeTime: 60   #秒
+
+kafka:
+  topic_list: ""
+  topics:
+    cmdb: "TOPIC_RESOURCES_CMDB"
+    monitor: "performance-huchi"
+    alert: "TOPIC_RESOURCES_ALERTS"
+  brokers: "192.168.1.221:9092"
+  consumer_group: "consumerGroup"

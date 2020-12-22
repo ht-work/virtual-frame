@@ -1,0 +1,70 @@
+1900695f7483473889e15ac5f2b9a0c6
+
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' \
+> --header 'head_orgAccount: alauda' --header 'head_userName: alauda' --header 'head_isAdmin: true' \
+> --header 'head_isSuperUser: true' \
+> -d '{"token":"aHR5dys5YWE0MGI1Zi0xYTdlLTExZWItOTMwNy0wMDUwNTZhODBjMzk=","condicationCode":"htyw_ci_search"}'  \
+> 'http://172.16.20.222:28129/v1/cmdb/restful/common/instance/list'
+
+
+curl -H "Content-Type:application/json" -H "token:chinamobileiaaschinamobileiaas" -X "GET" "http://10.129.137.221:8080/api/v1/query?query=topk(3,te_score)"
+
+http://10.129.137.221:8080/api/v1/query_range?start=1604553725.36&end=1604557325.36&step=300&query=te_resource_assign_ratio%7Btenant%3D%221121d0d68dc84973a79a9936a1c352d8%22%7D
+
+
+select idc_type, idc_type_name, sum(cpu_core_num * cpu_num) as cpu_core_num, sum(mem_size) as mem_size, count(device_type='f5f6b15cc48a43a1b02467f0bfcfbeae') as VM
+from tb_resource group by idc_type;
+
+
+select biz_sys_id, owner_biz_sys, sum(allocate_ljs) as allocate_ljs, 
+            sum(allocate_yyfwq) as allocate_yyfwq, sum(allocate_fxxfwq) as allocate_fxxfwq,
+			sum(allocate_fbsfwq) as allocate_fbsfwq, sum(allocate_hcxfwq) as allocate_hcxfwq,
+			sum(allocate_gdyyfwq) as allocate_gdyyfwq, sum(allocate_djdfwq) as allocate_djdfwq,
+			sum(allocate_yzj) as allocate_yzj, sum(allocate_yzj_vcpu) as allocate_yzj_vcpu,
+			sum(allocate_yzj_mem)
+		from tb_biz_sys_quota group by biz_sys_id, owner_biz_sys;
+
+设备类型	设备类型名称
+00ea0895df164cd4a431817b572d9d16	小型机
+14a9081b92ab41639de39eccea40bc99	分布式块存储
+1fe568aa754144bf911d68c35f1ef0d3	对象存储
+202a7a0c394549bbb4340656c49be6a4	刀箱服务器
+25bbe44ec1ba468688b991aee954e1f4	交换机
+3078758e1c084b9091a7e847fe8f4d8b	VPN设备
+33e4456b9c40475b92f506b0ae4fc348	路由器
+5d07f4fe51f34c8087fc669d648c215c	SDN控制器
+5dbbc2ce6c5547f0aa72076cb68a1712	WAF
+6be5a44574c04e50b2d99f4518732f38	入侵防御设备
+85a802f297a24b2e9c9ec58dd15846b7	X86服务器
+8b6e19bb98e844ebaee0f39a442b0db2	负载均衡
+92282925bdb648aa85cf3fda1aeebb03	入侵检测设备
+960ac51ce4654fc5b100c6b069159f70	防火墙
+991df24fcd694d7782ffae83845426ce	漏洞扫描设备
+a05bae7c0d3e4b5cae6723d52a36ef9f	文件存储
+a80f3eac75ed429b821a71f228b66326	抗DDOS设备
+bf991b42aa2044ecb4a0353c314c3e9b	IP-SAN
+cfaf7a4470294853b5a573fbf54c7169	FC-SAN
+f1112919d01c4977be73860b15612d72	分流器
+f5f6b15cc48a43a1b02467f0bfcfbeae	云主机
+
+
+htyw_business_quota_search
+
+
+参数名	必选	类型	说明
+token	是	string	认证token, 固定用: aHR5dys5YWE0MGI1Zi0xYTdlLTExZWItOTMwNy0wMDUwNTZhODBjMzk=
+condicationCode	是	string	查询配置编码
+pageSize	否	int	每页记录数, 默认100
+currentPage	否	int	当前页数, 默认1
+device_type	否	string	设备类型
+idcType	否	string	资源池
+pod_name	否	string	POD池名称
+ip	否	string	管理IP地址
+department1	否	string	一级部门
+department2	否	string	二级部门
+bizSystem	否	string	业务系统
+idc_cabinet	否	string	所属机柜
+u_num	否	string	U位
+roomId	否	string	所属机房
+device_mfrs	否	string	设备品牌
+device_model	否	string	设备型号

@@ -1,0 +1,14 @@
+[Unit]
+Description=xxx_service_xxx service for IaaS Platform
+After=network.service
+
+[Service]
+Type=simple
+Environment=env=xxx_pool_xxx
+Restart=on-failure
+ExecStart=/usr/local/bin/iaas
+ExecStop=/bin/kill -TERM $MAINPID
+TimeoutSec=10
+
+[Install]
+WantedBy=multi-user.target
